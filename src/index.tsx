@@ -1,0 +1,27 @@
+import React, {useEffect} from 'react';
+import 'react-native-gesture-handler';
+import {ThemeProvider} from 'ui';
+import FlashMessage from 'react-native-flash-message';
+import {RootNavigator} from 'navigation';
+import {hydrateAuth, setI18nConfig} from 'core';
+import APIProvider from 'api/APIProvider';
+import {Text, View} from 'react-native-ui-lib';
+
+setI18nConfig();
+hydrateAuth();
+
+const App = () => {
+  return (
+    <APIProvider>
+      {/* <ThemeProvider>
+        <RootNavigator />
+        <FlashMessage position="top" />
+      </ThemeProvider> */}
+      <View flex>
+        <Text>asda</Text>
+      </View>
+    </APIProvider>
+  );
+};
+
+export default App;
