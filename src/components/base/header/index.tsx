@@ -33,19 +33,22 @@ const Header = ({name}: HeaderProps) => {
             infoUser?.tenNhanVien ? infoUser?.tenNhanVien : 'Chưa cập nhật tên'
           }`}
         </TextBase>
-        <TextBase numberOfLines={1} marginT-4 fontFamily="Bold" color="#fff" fontSize={14}>
+        {/* <TextBase numberOfLines={1} marginT-4 fontFamily="Bold" color="#fff" fontSize={14}>
           {infoUser?.email || 'Lỗi đăng nhập, vui lòng đăng nhập lại!'}
+        </TextBase> */}
+        <TextBase numberOfLines={1} marginT-4 fontFamily="Bold" color="#fff" fontSize={14}>
+          Xin chào
         </TextBase>
       </View>
 
-      <TouchableOpacityBase
+      {/* <TouchableOpacityBase
         marginH-10
         onPress={() => {
           navigation.navigate('ScanLogin');
         }}
       >
         <Scan color="#fff" />
-      </TouchableOpacityBase>
+      </TouchableOpacityBase> */}
       {/* <TouchableOpacityBase
         marginH-12
         marginT-8
@@ -55,13 +58,13 @@ const Header = ({name}: HeaderProps) => {
       >
         <Message color="#fff" />
       </TouchableOpacityBase> */}
-      <TouchableOpacityBase
+      {/* <TouchableOpacityBase
         onPress={() => {
           navigation.navigate('CollectPoints', {routeName: 'ScanCode'});
         }}
       >
         <WalletAdd color="#fff" />
-      </TouchableOpacityBase>
+      </TouchableOpacityBase> */}
     </View>
   );
 };
