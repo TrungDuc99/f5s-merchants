@@ -1,13 +1,13 @@
 import {signOut} from '@core';
 import {getToken} from '@core/Auth/utils';
-import {API_URL} from '@env';
+
 import {showErrorMessage} from '@utils';
 import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
 import queryString from 'query-string';
 // const API_URL = 'https://sandapps.f5seconds.vn';
 // console.log(API_URL, 'd14252');
-const axiosBshClient = axios.create({
-  baseURL: `${API_URL}/api-merchant/api/bsh/v1`,
+const axiosClientCoreApps = axios.create({
+  baseURL: 'https://core-apps.f5seconds.vn/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -16,7 +16,7 @@ const axiosBshClient = axios.create({
   },
 });
 
-axiosBshClient.interceptors.request.use(
+axiosClientCoreApps.interceptors.request.use(
   async (config: AxiosRequestConfig | any) => {
     const token = getToken()?.access;
     if (token) {
@@ -31,7 +31,7 @@ axiosBshClient.interceptors.request.use(
 );
 
 // Add a response interceptor
-axiosBshClient.interceptors.response.use(
+axiosClientCoreApps.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data;
   },
@@ -45,4 +45,4 @@ axiosBshClient.interceptors.response.use(
   }
 );
 
-export default axiosBshClient;
+export default axiosClientCoreApps;

@@ -9,33 +9,24 @@ import VoucherScreen from '@screens/voucher-screen';
 import {AlignBottom, ProfileCircle, Scan, Stickynote, TicketDiscount} from 'iconsax-react-native';
 import React, {useRef, useState} from 'react';
 
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {
-  Animated,
-  Dimensions,
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Animated, Dimensions, StyleSheet} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {View} from 'react-native-ui-lib';
 import AccountDrawer from './account-drawer';
+import OrderCoreAppsScreen from '@screens/order-core-apps-screen';
 export type MainBottomTabParamList = {
   Order: undefined;
   Scan: {
     scanType: number;
   };
+  OrderCoreApps: undefined;
   Statistic: undefined;
   Voucher: undefined;
   Account: undefined;
 };
-import DeviceInfo from 'react-native-device-info';
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 const MainBottomTab = () => {
-  const insets = useSafeAreaInsets();
   let screenWidth = Dimensions.get('window').width;
   const [deviceName, setDeviceName] = useState<string>();
 
@@ -82,7 +73,7 @@ const MainBottomTab = () => {
         },
       }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Order"
         listeners={({navigation, route}) => ({
           tabPress: e => {
@@ -99,8 +90,26 @@ const MainBottomTab = () => {
             return <Stickynote {...props} variant="Bulk" size={ScaleSize(24)} />;
           },
         }}
-      />
+      /> */}
       <Tab.Screen
+        name="OrderCoreApps"
+        listeners={({navigation, route}) => ({
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: ScaleSize(getWidth() * 0),
+              useNativeDriver: true,
+            }).start();
+          },
+        })}
+        component={OrderCoreAppsScreen}
+        options={{
+          title: 'Đơn hàng ',
+          tabBarIcon: props => {
+            return <Stickynote {...props} variant="Bulk" size={ScaleSize(24)} />;
+          },
+        }}
+      />
+      {/* <Tab.Screen
         listeners={({navigation, route}) => ({
           tabPress: e => {
             Animated.spring(tabOffsetValue, {
@@ -117,8 +126,8 @@ const MainBottomTab = () => {
             return <TicketDiscount {...props} variant="Bulk" size={ScaleSize(24)} />;
           },
         }}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         listeners={({navigation, route}) => ({
           tabPress: e => {
             Animated.spring(tabOffsetValue, {
@@ -177,7 +186,7 @@ const MainBottomTab = () => {
             return <AlignBottom {...props} variant="Bulk" size={ScaleSize(24)} />;
           },
         }}
-      />
+      /> */}
       <Tab.Screen
         listeners={({navigation, route}) => ({
           tabPress: e => {

@@ -37,12 +37,12 @@ axiosClientVerify.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.log('ERROR: ', error);
-    if (error.response?.status === 401) {
-      showErrorMessage('Phiên đăng nhập hết hạn');
-      signOut();
-    } else {
-      showError(error);
-    }
+    // if (error.response?.status === 401) {
+    //   showErrorMessage('Phiên đăng nhập hết hạn');
+    //   signOut();
+    // } else {
+    //   showError(error);
+    // }
     return Promise.reject(error?.response?.data ?? error);
   }
 );

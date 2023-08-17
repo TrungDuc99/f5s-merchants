@@ -38,11 +38,11 @@ axiosClient.interceptors.response.use(
   (error: AxiosError) => {
     console.log('ERROR: ', error);
 
-    if (error.response?.status === 401) {
-      showErrorMessage('Phiên đăng nhập hết hạn');
-      signOut();
-    } else {
-    }
+    // if (error.response?.status === 401) {
+    //   showErrorMessage('Phiên đăng nhập hết hạn');
+    //   signOut();
+    // } else {
+    // }
     return Promise.reject(error?.response?.data ?? error);
   }
 );

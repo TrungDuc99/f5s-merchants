@@ -1,4 +1,3 @@
-import {useAuth} from '@core';
 import {DonHang, DonHangCount, DonHangUpdateParams, Voucher} from '@models/don-hang';
 
 import {Platform} from 'react-native';
@@ -8,12 +7,18 @@ import {useSelector} from 'react-redux';
 import {setBadgeCountNoti} from '../../src/initials';
 import {PaginationParams, QueryParams, ResponseData, ResultData} from '../models/common';
 import axiosClient from './axios-client';
+import axiosClientCoreApps from './axios-client-core-apps';
 
 const donHangApi = {
   getAll: (params: QueryParams): Promise<ResponseData<ResultData<DonHang>>> => {
-    const url = '/donhang/list';
+    const url = '/donhang/list/';
     return axiosClient.get(url, {params});
   },
+  getAllCoreApps: (params: any): Promise<any> => {
+    const url = `/orderitem/list?status=${params.status}`;
+    return axiosClientCoreApps.get(url);
+  },
+
   findByCode: (voucherCode: string): Promise<ResponseData<DonHang>> => {
     const url = `/donhang/find-by-code?code=${voucherCode}`;
 
@@ -109,6 +114,44 @@ export const useDonHang = (
       },
     }
   );
+};
+// export const useDonHangCoreApps = (
+//   filters: QueryParams,
+//   setPagination: React.Dispatch<React.SetStateAction<PaginationParams>>
+// ) => {
+//   // const {infoUser} = useAuth();
+//   return useInfiniteQuery(
+//     ['donHangList', filters],
+//     async ({pageParam = 1}) => {
+//       return donHangApi.getAll({
+//         ...filters,
+//         pageNumber: pageParam,
+//       });
+//     },
+//     {
+//       keepPreviousData: false,
+
+//       getNextPageParam: (lastPage, page) => {
+//         if (lastPage && lastPage.data.hasNext) {
+//           return page.length + 1;
+//         }
+//       },
+//       onSuccess: dataResult => {
+//         if (dataResult) {
+//           const {pages} = dataResult;
+//           if (pages[0]) {
+//             const {currentPage, totalPages, pageSize, totalCount, hasNext, hasPrevious} =
+//               pages[0]?.data;
+//             setPagination({currentPage, hasNext, hasPrevious, pageSize, totalCount, totalPages});
+//             // console.log(dataResult, dataResult.pages[0]?.data, '323423');
+//           }
+//         }
+//       },
+//     }
+//   );
+// };
+export const useDonHangCoreApps = () => {
+  return useMutation(donHangApi.getAllCoreApps);
 };
 export const useChiTietDonHang = (productCode: string, option?: any) => {
   return useQuery(

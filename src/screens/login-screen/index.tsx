@@ -24,7 +24,7 @@ import OneSignal from 'react-native-onesignal';
 import {useToast} from 'react-native-toast-notifications';
 import {Text, View} from 'react-native-ui-lib';
 import * as yup from 'yup';
-import {useAuthenticate, useInfoUser} from '../../api';
+import {useAuthenticate, useAuthenticateCoreApps, useInfoUser} from '../../api';
 import {useAuth} from '../../core';
 const rnBiometrics = new ReactNativeBiometrics();
 type FormData = {
@@ -58,7 +58,9 @@ export const LoginScreen = () => {
   });
   const toast = useToast();
   const {handleSubmit, watch} = form;
-  const {mutate, isLoading} = useAuthenticate();
+
+  // const {mutate, isLoading} = useAuthenticate();
+  const {mutate, isLoading} = useAuthenticateCoreApps();
   // const {mutate: mutateInfoUser} = useInfoUser();
 
   const handleFinger = async () => {
@@ -76,6 +78,7 @@ export const LoginScreen = () => {
             //form.setValue('email', email);
             form.setValue('phoneNumber', phoneNumber);
             form.setValue('password', password);
+
             mutate(
               {
                 password: password,
@@ -84,8 +87,16 @@ export const LoginScreen = () => {
               },
               {
                 onSuccess: res => {
-                  signIn({access: res.data.jwToken}, watch('remember'), phoneNumber, password);
+                  console.log('=========asdasdasd===========================');
+                  console.log(res.Token.AccessToken);
+                  console.log('====================================');
+                  signIn({access: res.Token.AccessToken}, watch('remember'), phoneNumber, password);
                   useInfoUser();
+                },
+                onError(error, variables, context) {
+                  console.log('====================================');
+                  console.log(error);
+                  console.log('====================================');
                 },
               }
             );
@@ -142,7 +153,22 @@ export const LoginScreen = () => {
         {...data, deviceToken: deviceState?.userId ?? ''},
         {
           onSuccess: res => {
-            signIn({access: res.data.jwToken}, data.remember, data.phoneNumber, data.password);
+            if (res.vendor) {
+              signIn(
+                {access: res.Token.AccessToken},
+                data.remember,
+                data.phoneNumber,
+                data.password
+              );
+            } else {
+              toast.show(`Tài khoản của bạn không phải là tài khoản "vender"`, {
+                type: 'danger_toast',
+                animationDuration: 100,
+                data: {
+                  title: 'Đã xảy ra lỗi',
+                },
+              });
+            }
           },
           onError(error, variables, context) {
             toast.show(`Đã xảy ra lỗi. Thông tin tài khoản hoặc mật khẩu không đúng`, {

@@ -10,11 +10,19 @@ import {
 import {showSuccessMessage} from '@utils';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import axiosClient from './axios-client';
-('');
+import axiosClientCoreApps from './axios-client-core-apps';
+
 const accountApi = {
   authenticate: (data: AuthenticateReq): Promise<ResponseData<AuthenticateRes>> => {
     const url = '/account/authenticate';
     return axiosClient.post(url, data);
+  },
+  authenticateCoreApps: (data: AuthenticateReq): Promise<any> => {
+    const url = '/authen/token';
+    return axiosClientCoreApps.post(url, {
+      Username: data.phoneNumber,
+      Password: data.password,
+    });
   },
   getInfoUser: (): Promise<InfoUserRes> => {
     const url = '/account/me';
@@ -58,7 +66,9 @@ const accountApi = {
 export const useAuthenticate = () => {
   return useMutation(accountApi.authenticate);
 };
-
+export const useAuthenticateCoreApps = () => {
+  return useMutation(accountApi.authenticateCoreApps);
+};
 export const useAuthenticateQR = () => {
   return useMutation(accountApi.authenticateQR);
 };

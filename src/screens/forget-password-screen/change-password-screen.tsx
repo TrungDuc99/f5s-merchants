@@ -1,4 +1,3 @@
-import {useSendVerify, useSendVerifyCode} from '@api/forget-password';
 import {ButtonBase, TextBase, Toolbar} from '@components/base';
 import {InputField} from '@components/forms';
 import {Colors, ScaleSize, Spacing} from '@configs';
@@ -8,9 +7,9 @@ import {RootStackParamList} from '@navigation';
 import {AuthStackParamList} from '@navigation/AuthStackNavigation';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {checkPassword, showErrorMessage, showSuccessMessage} from '@utils';
-import {Call, Eye, EyeSlash, Lock, Login, PasswordCheck, Sms} from 'iconsax-react-native';
-import React, {useEffect, useState} from 'react';
+import {showSuccessMessage} from '@utils';
+import {Eye, EyeSlash, Lock, Login} from 'iconsax-react-native';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {
   Image,
@@ -22,8 +21,8 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useToast} from 'react-native-toast-notifications';
 import {View} from 'react-native-ui-lib';
-import {useAuthenticate, useChangePasswordForget, useCheckPhoneNumber} from '../../api';
 import * as yup from 'yup';
+import {useChangePasswordForget} from '../../api';
 export type LoginNavigationScreenProp = StackNavigationProp<RootStackParamList>;
 const schema = yup.object().shape({
   // newPassword: yup
